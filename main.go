@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
@@ -54,4 +55,11 @@ func main() {
 	}
 
 	logger.Info("the http server is now stopped")
+}
+func EchoFunction(c *gin.Context) {
+	data, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		panic(err)
+	}
+	c.String(http.StatusOK, string(data))
 }
