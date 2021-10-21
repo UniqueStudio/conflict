@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,7 +23,7 @@ func main() {
 	router := gin.Default()
 
 	// add the ping-pong function
-	router.GET("/ping")
+	router.GET("/ping", pingHandler)
 
 	// add the echo function
 	router.POST("/echo")
@@ -54,4 +55,17 @@ func main() {
 	}
 
 	logger.Info("the http server is now stopped")
+}
+
+func pingHandler(ctx *gin.Context) {
+	rander := rand.New(rand.NewSource(time.Now().Unix()))
+	isPanic := rander.Intn(2) == 0
+
+	if isPanic {
+		panic("just a tricky")
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "pong",
+	})
 }
