@@ -26,7 +26,7 @@ func main() {
 	router.GET("/ping")
 
 	// add the echo function
-	router.POST("/echo")
+	router.POST("/echo", EchoFunction)
 
 	srv := http.Server{
 		Addr:         "0.0.0.0:5000",
